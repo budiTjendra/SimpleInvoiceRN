@@ -24,7 +24,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const App: () => React$Node = () => {
+const AppAndroid: () => React$Node = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -32,7 +32,6 @@ const App: () => React$Node = () => {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          <Header />
           {global.HermesInternal == null ? null : (
             <View style={styles.engine}>
               <Text style={styles.footer}>Engine: Hermes</Text>
@@ -111,4 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default AppAndroid;
