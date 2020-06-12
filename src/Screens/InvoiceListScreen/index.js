@@ -1,8 +1,10 @@
-import React, { useReducer} from 'react';
+import React from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, Button , TouchableWithoutFeedback, TextInput, ScrollView} from 'react-native';
 import AppButton from '../../Components/AppButton';
 import InvoiceItem from './InvoiceItem';
 import {ScreenName} from '../../Constants'
+import Header from './Header';
+
 const DATA = [
 	{
 		id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -142,19 +144,16 @@ const sortType = {
 	totalAmount: "total_amount"
 }
 
+Object.freeze(sortType)
+
 const InvoiceList = ({navigation}) => {
 	const [showFilterSelectionUI, onShowFilterSelectionUI] = React.useState(false);
 	const [showSortSelectionUI, onShowSortSelectionUI] = React.useState(false);
 
-	const [searchText, onChangeSearchText] = React.useState('');
 	const [state, dispatch] = React.useReducer(reducer, initialState);
 
 	const performSorting = () => {
 		console.log('perform Sorting')
-	}
-
-	const performSearch = ()=> {
-		console.log('search', {searchText})
 	}
 
 	const onGoToCreateInvoiceScreen = () => {
@@ -232,16 +231,7 @@ const InvoiceList = ({navigation}) => {
 	return (
 			<SafeAreaView style={styles.container}>
 				<ScrollView>
-					<View style={styles.topPanel}>
-						<TextInput
-							style={{ flex: 1, borderColor: 'gray', padding: 10}}
-							onChangeText={text => onChangeSearchText(text)}
-							placeholder={"search by merchant id"}
-							value={searchText}
-						/>
-						<AppButton title={"Search"} onPress={performSearch}/>
-					</View>
-
+					<Header/>
 					<FlatList
 						data={data}
 						renderItem={({ item }) => <InvoiceItem data={item}/>}
@@ -249,15 +239,17 @@ const InvoiceList = ({navigation}) => {
 					/>
 				</ScrollView>
 
+				{/* show FilterSelectionUI if value is true */}
 				{ showFilterSelectionUI && <FilterSelection/> }
 
+				{/* show SortSelectionUI if value is true */}
 				{ showSortSelectionUI && <SortSelection/> }
 
 				<TouchableWithoutFeedback onPress={()=> {
 					onShowFilterSelectionUI(false)
 					onShowSortSelectionUI(false)
 				}}>
-					<View style={styles.bottomPanel}>
+					<View style={styles.footer}>
 						<AppButton title={"Sort"} onPress={onSortButtonPressed}/>
 						<AppButton title={"Filter"} onPress={onFilterButtonPressed}/>
 						<AppButton title={"Create Invoice"} onPress={onGoToCreateInvoiceScreen}/>
@@ -277,19 +269,13 @@ const styles = StyleSheet.create({
 	buttonTitle:{
 		color: 'white'
 	},
-	topPanel:{
-		justifyContent: 'space-around',
-		flexDirection:'row',
-		color:'white',
-		marginHorizontal: 10
-	},
 	selectionPanel:{
 		borderBottomColor: "gray",
 		borderBottomWidth: StyleSheet.hairlineWidth,
 		justifyContent: 'space-around',
 		marginVertical: 10,
 	},
-	bottomPanel:{
+	footer:{
 		borderBottomColor: "gray",
 		borderBottomWidth: StyleSheet.hairlineWidth,
 		justifyContent: 'space-around',
