@@ -2,7 +2,7 @@ import React, { useReducer} from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, Button , TouchableWithoutFeedback, TextInput, ScrollView} from 'react-native';
 import AppButton from '../../Components/AppButton';
 import InvoiceItem from './InvoiceItem';
-
+import {ScreenName} from '../../Constants'
 const DATA = [
 	{
 		id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -161,7 +161,7 @@ const InvoiceList = ({navigation}) => {
 		onShowSortSelectionUI(false)
 		onShowFilterSelectionUI(false)
 
-		navigation.navigate('CreateInvoice')
+		navigation.navigate(ScreenName.createInvoice)
 	}
 
 	const filterByAllHistory = () => {
