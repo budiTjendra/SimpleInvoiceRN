@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, Button , TouchableWithoutFeedback, TextInput, ScrollView} from 'react-native';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, Button , TouchableWithoutFeedback, TextInput, ScrollView, VirtualizedList} from 'react-native';
 import AppButton from '../../Components/AppButton';
 import InvoiceItem from './InvoiceItem';
 import {ScreenName} from '../../Constants'
@@ -233,15 +233,12 @@ const InvoiceList = ({navigation}) => {
 		  	state, dispatch
 			}}>
 				<SafeAreaView style={styles.container}>
-
-					<ScrollView>
-						<Header/>
-						<FlatList
-							data={data}
-							renderItem={({ item }) => <InvoiceItem data={item}/>}
-							keyExtractor={item => item.id}
-						/>
-					</ScrollView>
+					<Header/>
+					<FlatList
+						data={data}
+						renderItem={({ item }) => <InvoiceItem data={item}/>}
+						keyExtractor={item => item.id}
+					/>
 
 					{/* show FilterSelectionUI if value is true */}
 					{ showFilterSelectionUI && <FilterSelection/> }
