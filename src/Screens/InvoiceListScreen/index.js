@@ -1,5 +1,5 @@
-import React from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text , TouchableOpacity} from 'react-native';
+import React, { useRef } from 'react';
+import { SafeAreaView, View, FlatList, StyleSheet, Text , TouchableOpacity, TextInput, ScrollView} from 'react-native';
 import AppButton from '../../Components/AppButton';
 import InvoiceItem from './InvoiceItem';
 
@@ -107,6 +107,7 @@ const DATA = [
 
 
 const InvoiceList = ({navigation}) => {
+	const [searchText, onChangeSearchText] = React.useState('');
 
 	const performSorting = () => {
 		console.log('perform Sorting')
@@ -117,31 +118,40 @@ const InvoiceList = ({navigation}) => {
 	}
 
 	const performSearch = ()=> {
-		console.log('search')
+		console.log('search', {searchText})
 	}
 
 	const createInvoice = () => {
 		navigation.navigate('CreateInvoice')
-		console.log('create invoice')
 	}
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.topPanel}>
-				<AppButton title={"Sort"} onPress={performSorting}/>
-				<AppButton title={"Filter"} onPress={performFiltering}/>
-			</View>
+			<ScrollView>
+				<View style={styles.topPanel}>
+					<TextInput
+						style={{ flex: 1, borderColor: 'gray', padding: 10}}
+						onChangeText={text => onChangeSearchText(text)}
+						placeholder={"search by merchant id"}
+						value={searchText}
+					/>
+					<AppButton title={"Search"} onPress={performSearch}/>
+				</View>
 
-			<FlatList
-				data={DATA}
-				renderItem={({ item }) => <InvoiceItem data={item}/>}
-				keyExtractor={item => item.id}
-			/>
+				<FlatList
+					data={DATA}sdfsd
+					renderItem={({ item }) => <InvoiceItem data={item}/>}
+					keyExtractor={item => item.id}
+				/>
+			</ScrollView>
+				<View style={styles.bottomPanel}>
+					<AppButton title={"Sort"} onPress={performSorting}/>
+					<AppButton title={"Filter"} onPress={performFiltering}/>
+					<AppButton title={"Create Invoice"} onPress={createInvoice}/>
+				</View>
 
-			<View style={styles.bottomPanel}>
-				<AppButton title={"Search"} onPress={performSearch}/>
-				<AppButton title={"Create Invoice"} onPress={createInvoice}/>
-			</View>
+
+
 		</SafeAreaView>
 	);
 }
@@ -158,11 +168,15 @@ const styles = StyleSheet.create({
 	topPanel:{
 		justifyContent: 'space-around',
 		flexDirection:'row',
-		color:'white'
+		color:'white',
+		marginHorizontal: 10
 	},
 	bottomPanel:{
+		borderBottomColor: "gray",
+		borderBottomWidth: StyleSheet.hairlineWidth,
 		justifyContent: 'space-around',
 		marginVertical: 10,
 		flexDirection:'row'
+
 	}
 });
