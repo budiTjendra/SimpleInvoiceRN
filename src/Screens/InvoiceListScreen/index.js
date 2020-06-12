@@ -49,7 +49,7 @@ const Item = ({ title }) => {
 	);
 }
 
-const InvoiceList = () => {
+const InvoiceList = ({navigation}) => {
 
 	const performSorting = () => {
 		console.log('perform Sorting')
@@ -64,6 +64,7 @@ const InvoiceList = () => {
 	}
 
 	const createInvoice = () => {
+		navigation.navigate('CreateInvoice')
 		console.log('create invoice')
 	}
 
@@ -73,11 +74,13 @@ const InvoiceList = () => {
 				<AppButton title={"Sort"} onPress={performSorting}/>
 				<AppButton title={"Filter"} onPress={performFiltering}/>
 			</View>
+
 			<FlatList
 				data={DATA}
 				renderItem={({ item }) => <Item title={item.title} />}
 				keyExtractor={item => item.id}
 			/>
+
 			<View style={styles.bottomPanel}>
 				<AppButton title={"Search"} onPress={performSearch}/>
 				<AppButton title={"Create Invoice"} onPress={createInvoice}/>
