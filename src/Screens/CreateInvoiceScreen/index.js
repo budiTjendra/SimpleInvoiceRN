@@ -1,15 +1,13 @@
 import React, {useLayoutEffect, useState} from 'react'
 import {
 	View,
-	Text,
+	Button,
 	ScrollView,
 	StyleSheet,
-	TextInput,
 	KeyboardAvoidingView,
 	Platform,
 	TouchableWithoutFeedback, Keyboard, Alert
 } from 'react-native'
-import AppButton from '../../Components/AppButton';
 import InputField from './InputField';
 
 const CreateInvoiceScreen = ({navigation}) => {
@@ -143,7 +141,7 @@ const CreateInvoiceScreen = ({navigation}) => {
 					</ScrollView>
 
 					<View style={styles.btnContainer}>
-						<AppButton title="Submit" onPress={createInvoice} />
+						<Button title="Submit" onPress={createInvoice} />
 					</View>
 				</View>
 			</TouchableWithoutFeedback>
