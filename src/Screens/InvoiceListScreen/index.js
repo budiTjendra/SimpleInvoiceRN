@@ -1,10 +1,11 @@
 import React from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, Button , TouchableWithoutFeedback, TextInput, ScrollView, VirtualizedList} from 'react-native';
-import AppButton from '../../Components/AppButton';
 import InvoiceItem from './InvoiceItem';
-import {ScreenName} from '../../Constants'
 import Header from './Header';
 import InvoiceListContext from './InvoiceListContext';
+import {sortType} from './Constants'
+import Footer from './Footer';
+
 const DATA = [
 	{
 		id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -137,91 +138,11 @@ const filterType = {
 
 Object.freeze(filterType)
 
-const sortType = {
-	invoiceID: "invoice_id",
-	transactionDate: "transaction_date",
-	totalTax: "total_tax",
-	totalAmount: "total_amount"
-}
-
-Object.freeze(sortType)
-
 const InvoiceList = ({navigation}) => {
-	const [showFilterSelectionUI, onShowFilterSelectionUI] = React.useState(false);
-	const [showSortSelectionUI, onShowSortSelectionUI] = React.useState(false);
-
 	const [state, dispatch] = React.useReducer(reducer, initialState);
 
 	const performSorting = () => {
 		console.log('perform Sorting')
-	}
-
-	const onGoToCreateInvoiceScreen = () => {
-		onShowSortSelectionUI(false)
-		onShowFilterSelectionUI(false)
-
-		navigation.navigate(ScreenName.createInvoice)
-	}
-
-	const filterByAllHistory = () => {
-		console.log('filterByAllHistory')
-	}
-
-	const filterByOneMonthAgo = () => {
-		console.log('filterByOneMonthAgo')
-	}
-
-	const filterByOneWeekAgo = () => {
-		console.log('filterByOneWeekAgo')
-	}
-
-	const FilterSelection = () => {
-		return (
-			<View style={styles.selectionPanel}>
-				<Button title={"All History"} onPress={filterByAllHistory}/>
-				<Button title={"A Month Ago"} onPress={filterByOneMonthAgo}/>
-				<Button title={"All History"} onPress={filterByOneWeekAgo}/>
-			</View>
-		)
-	}
-
-
-	const sortByInvoiceId = () => {
-		dispatch({ type: sortType.invoiceID})
-	}
-
-	const sortByTransactionDate = () => {
-		dispatch({ type: sortType.transactionDate})
-	}
-
-	const sortByTotalTax = () => {
-		dispatch( { type: sortType.totalTax})
-	}
-
-	const sortByTotalAmount = () => {
-		dispatch( { type: sortType.totalAmount})
-	}
-
-
-	const SortSelection = () => {
-		return (
-			<View style={styles.selectionPanel}>
-				<Button title={"Invoice ID"} onPress={sortByInvoiceId}/>
-				<Button title={"Transaction Date"} onPress={sortByTransactionDate}/>
-				<Button title={"Total Tax"} onPress={sortByTotalTax}/>
-				<Button title={"Total Amount"} onPress={sortByTotalAmount}/>
-			</View>
-		)
-	}
-
-	const onSortButtonPressed = () => {
-		onShowSortSelectionUI(!showSortSelectionUI)
-		onShowFilterSelectionUI(false)
-	}
-
-	const onFilterButtonPressed = () => {
-		onShowFilterSelectionUI(!showFilterSelectionUI)
-		onShowSortSelectionUI(false)
 	}
 
 	const {
@@ -239,24 +160,7 @@ const InvoiceList = ({navigation}) => {
 						renderItem={({ item }) => <InvoiceItem data={item}/>}
 						keyExtractor={item => item.id}
 					/>
-
-					{/* show FilterSelectionUI if value is true */}
-					{ showFilterSelectionUI && <FilterSelection/> }
-
-					{/* show SortSelectionUI if value is true */}
-					{ showSortSelectionUI && <SortSelection/> }
-
-					<TouchableWithoutFeedback onPress={()=> {
-						onShowFilterSelectionUI(false)
-						onShowSortSelectionUI(false)
-					}}>
-						<View style={styles.footer}>
-							<AppButton title={"Sort"} onPress={onSortButtonPressed}/>
-							<AppButton title={"Filter"} onPress={onFilterButtonPressed}/>
-							<AppButton title={"Create Invoice"} onPress={onGoToCreateInvoiceScreen}/>
-						</View>
-					</TouchableWithoutFeedback>
-
+					<Footer navigation={navigation}/>
 				</SafeAreaView>
 			</InvoiceListContext.Provider>
 	);
@@ -270,18 +174,5 @@ const styles = StyleSheet.create({
 	},
 	buttonTitle:{
 		color: 'white'
-	},
-	selectionPanel:{
-		borderBottomColor: "gray",
-		borderBottomWidth: StyleSheet.hairlineWidth,
-		justifyContent: 'space-around',
-		marginVertical: 10,
-	},
-	footer:{
-		borderBottomColor: "gray",
-		borderBottomWidth: StyleSheet.hairlineWidth,
-		justifyContent: 'space-around',
-		marginVertical: 10,
-		flexDirection:'row'
 	},
 });
