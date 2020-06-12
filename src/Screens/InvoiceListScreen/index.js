@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text , TouchableOpacity, TextInput, ScrollView} from 'react-native';
+import React, { useReducer} from 'react';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, Button , TouchableWithoutFeedback, TextInput, ScrollView} from 'react-native';
 import AppButton from '../../Components/AppButton';
 import InvoiceItem from './InvoiceItem';
 
@@ -105,54 +105,166 @@ const DATA = [
 	},
 ];
 
+const initialState = {data: DATA}
+
+function reducer(state, action) {
+	switch (action.type) {
+		case sortType.invoiceID:
+			console.log('sort by invoiceID')
+			return state;
+		case sortType.transactionDate:
+			console.log('sort by transactionDate')
+			return state;
+		case sortType.totalTax:
+			console.log('sort by totalTax')
+			return state;
+		case sortType.totalAmount:
+			console.log('sort by totalAmount')
+			return state;
+
+		default:
+			return state;
+	}
+}
+
+const filterType = {
+	allHistory: "all_history",
+	aMonthAgo: "a_month_ago",
+	aWeekAgo: "a_week_ago"
+}
+
+Object.freeze(filterType)
+
+const sortType = {
+	invoiceID: "invoice_id",
+	transactionDate: "transaction_date",
+	totalTax: "total_tax",
+	totalAmount: "total_amount"
+}
 
 const InvoiceList = ({navigation}) => {
+	const [showFilterSelectionUI, onShowFilterSelectionUI] = React.useState(false);
+	const [showSortSelectionUI, onShowSortSelectionUI] = React.useState(false);
+
 	const [searchText, onChangeSearchText] = React.useState('');
+	const [state, dispatch] = React.useReducer(reducer, initialState);
 
 	const performSorting = () => {
 		console.log('perform Sorting')
-	}
-
-	const performFiltering = () => {
-		console.log('filter')
 	}
 
 	const performSearch = ()=> {
 		console.log('search', {searchText})
 	}
 
-	const createInvoice = () => {
+	const onGoToCreateInvoiceScreen = () => {
+		onShowSortSelectionUI(false)
+		onShowFilterSelectionUI(false)
+
 		navigation.navigate('CreateInvoice')
 	}
 
+	const filterByAllHistory = () => {
+		console.log('filterByAllHistory')
+	}
+
+	const filterByOneMonthAgo = () => {
+		console.log('filterByOneMonthAgo')
+	}
+
+	const filterByOneWeekAgo = () => {
+		console.log('filterByOneWeekAgo')
+	}
+
+	const FilterSelection = () => {
+		return (
+			<View style={styles.selectionPanel}>
+				<Button title={"All History"} onPress={filterByAllHistory}/>
+				<Button title={"A Month Ago"} onPress={filterByOneMonthAgo}/>
+				<Button title={"All History"} onPress={filterByOneWeekAgo}/>
+			</View>
+		)
+	}
+
+
+	const sortByInvoiceId = () => {
+		dispatch({ type: sortType.invoiceID})
+	}
+
+	const sortByTransactionDate = () => {
+		dispatch({ type: sortType.transactionDate})
+	}
+
+	const sortByTotalTax = () => {
+		dispatch( { type: sortType.totalTax})
+	}
+
+	const sortByTotalAmount = () => {
+		dispatch( { type: sortType.totalAmount})
+	}
+
+
+	const SortSelection = () => {
+		return (
+			<View style={styles.selectionPanel}>
+				<Button title={"Invoice ID"} onPress={sortByInvoiceId}/>
+				<Button title={"Transaction Date"} onPress={sortByTransactionDate}/>
+				<Button title={"Total Tax"} onPress={sortByTotalTax}/>
+				<Button title={"Total Amount"} onPress={sortByTotalAmount}/>
+			</View>
+		)
+	}
+
+	const onSortButtonPressed = () => {
+		onShowSortSelectionUI(!showSortSelectionUI)
+		onShowFilterSelectionUI(false)
+	}
+
+	const onFilterButtonPressed = () => {
+		onShowFilterSelectionUI(!showFilterSelectionUI)
+		onShowSortSelectionUI(false)
+	}
+
+	const {
+		data
+	} = state;
+
 	return (
-		<SafeAreaView style={styles.container}>
-			<ScrollView>
-				<View style={styles.topPanel}>
-					<TextInput
-						style={{ flex: 1, borderColor: 'gray', padding: 10}}
-						onChangeText={text => onChangeSearchText(text)}
-						placeholder={"search by merchant id"}
-						value={searchText}
+			<SafeAreaView style={styles.container}>
+				<ScrollView>
+					<View style={styles.topPanel}>
+						<TextInput
+							style={{ flex: 1, borderColor: 'gray', padding: 10}}
+							onChangeText={text => onChangeSearchText(text)}
+							placeholder={"search by merchant id"}
+							value={searchText}
+						/>
+						<AppButton title={"Search"} onPress={performSearch}/>
+					</View>
+
+					<FlatList
+						data={data}
+						renderItem={({ item }) => <InvoiceItem data={item}/>}
+						keyExtractor={item => item.id}
 					/>
-					<AppButton title={"Search"} onPress={performSearch}/>
-				</View>
+				</ScrollView>
 
-				<FlatList
-					data={DATA}sdfsd
-					renderItem={({ item }) => <InvoiceItem data={item}/>}
-					keyExtractor={item => item.id}
-				/>
-			</ScrollView>
-				<View style={styles.bottomPanel}>
-					<AppButton title={"Sort"} onPress={performSorting}/>
-					<AppButton title={"Filter"} onPress={performFiltering}/>
-					<AppButton title={"Create Invoice"} onPress={createInvoice}/>
-				</View>
+				{ showFilterSelectionUI && <FilterSelection/> }
 
+				{ showSortSelectionUI && <SortSelection/> }
 
+				<TouchableWithoutFeedback onPress={()=> {
+					onShowFilterSelectionUI(false)
+					onShowSortSelectionUI(false)
+				}}>
+					<View style={styles.bottomPanel}>
+						<AppButton title={"Sort"} onPress={onSortButtonPressed}/>
+						<AppButton title={"Filter"} onPress={onFilterButtonPressed}/>
+						<AppButton title={"Create Invoice"} onPress={onGoToCreateInvoiceScreen}/>
+					</View>
+				</TouchableWithoutFeedback>
 
-		</SafeAreaView>
+			</SafeAreaView>
 	);
 }
 
@@ -171,12 +283,17 @@ const styles = StyleSheet.create({
 		color:'white',
 		marginHorizontal: 10
 	},
+	selectionPanel:{
+		borderBottomColor: "gray",
+		borderBottomWidth: StyleSheet.hairlineWidth,
+		justifyContent: 'space-around',
+		marginVertical: 10,
+	},
 	bottomPanel:{
 		borderBottomColor: "gray",
 		borderBottomWidth: StyleSheet.hairlineWidth,
 		justifyContent: 'space-around',
 		marginVertical: 10,
 		flexDirection:'row'
-
-	}
+	},
 });
