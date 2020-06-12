@@ -1,12 +1,18 @@
 import React from 'react'
 import {StyleSheet, TextInput, View} from 'react-native';
 import AppButton from '../../../Components/AppButton';
+import InvoiceListContext from '../InvoiceListContext';
 
 const Header = () => {
 	const [searchText, onChangeSearchText] = React.useState('');
+	const invoiceListContext = React.useContext(InvoiceListContext)
+
+	const {
+		dispatch
+	} = invoiceListContext
 
 	const performSearch = ()=> {
-		console.log('search', {searchText})
+		console.log('search', {searchText}, {invoiceListContext: JSON.stringify(invoiceListContext)})
 	}
 
 	return (

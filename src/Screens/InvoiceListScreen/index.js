@@ -4,7 +4,7 @@ import AppButton from '../../Components/AppButton';
 import InvoiceItem from './InvoiceItem';
 import {ScreenName} from '../../Constants'
 import Header from './Header';
-
+import InvoiceListContext from './InvoiceListContext';
 const DATA = [
 	{
 		id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -229,34 +229,39 @@ const InvoiceList = ({navigation}) => {
 	} = state;
 
 	return (
-			<SafeAreaView style={styles.container}>
-				<ScrollView>
-					<Header/>
-					<FlatList
-						data={data}
-						renderItem={({ item }) => <InvoiceItem data={item}/>}
-						keyExtractor={item => item.id}
-					/>
-				</ScrollView>
+		  <InvoiceListContext.Provider value={{
+		  	state, dispatch
+			}}>
+				<SafeAreaView style={styles.container}>
 
-				{/* show FilterSelectionUI if value is true */}
-				{ showFilterSelectionUI && <FilterSelection/> }
+					<ScrollView>
+						<Header/>
+						<FlatList
+							data={data}
+							renderItem={({ item }) => <InvoiceItem data={item}/>}
+							keyExtractor={item => item.id}
+						/>
+					</ScrollView>
 
-				{/* show SortSelectionUI if value is true */}
-				{ showSortSelectionUI && <SortSelection/> }
+					{/* show FilterSelectionUI if value is true */}
+					{ showFilterSelectionUI && <FilterSelection/> }
 
-				<TouchableWithoutFeedback onPress={()=> {
-					onShowFilterSelectionUI(false)
-					onShowSortSelectionUI(false)
-				}}>
-					<View style={styles.footer}>
-						<AppButton title={"Sort"} onPress={onSortButtonPressed}/>
-						<AppButton title={"Filter"} onPress={onFilterButtonPressed}/>
-						<AppButton title={"Create Invoice"} onPress={onGoToCreateInvoiceScreen}/>
-					</View>
-				</TouchableWithoutFeedback>
+					{/* show SortSelectionUI if value is true */}
+					{ showSortSelectionUI && <SortSelection/> }
 
-			</SafeAreaView>
+					<TouchableWithoutFeedback onPress={()=> {
+						onShowFilterSelectionUI(false)
+						onShowSortSelectionUI(false)
+					}}>
+						<View style={styles.footer}>
+							<AppButton title={"Sort"} onPress={onSortButtonPressed}/>
+							<AppButton title={"Filter"} onPress={onFilterButtonPressed}/>
+							<AppButton title={"Create Invoice"} onPress={onGoToCreateInvoiceScreen}/>
+						</View>
+					</TouchableWithoutFeedback>
+
+				</SafeAreaView>
+			</InvoiceListContext.Provider>
 	);
 }
 
