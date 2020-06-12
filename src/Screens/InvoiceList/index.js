@@ -1,5 +1,6 @@
 import React from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text , TouchableOpacity} from 'react-native';
+import AppButton from '../../Components/AppButton';
 
 const DATA = [
 	{
@@ -40,7 +41,7 @@ const DATA = [
 	},
 ];
 
-function Item({ title }) {
+const Item = ({ title }) => {
 	return (
 		<View style={styles.item}>
 			<Text style={styles.title}>{title}</Text>
@@ -48,16 +49,29 @@ function Item({ title }) {
 	);
 }
 
-export default function InvoiceList() {
+const InvoiceList = () => {
+
+	const performSorting = () => {
+		console.log('perform Sorting')
+	}
+
+	const performFiltering = () => {
+		console.log('filter')
+	}
+
+	const performSearch = ()=> {
+		console.log('search')
+	}
+
+	const createInvoice = () => {
+		console.log('create invoice')
+	}
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.topPanel}>
-				<TouchableOpacity>
-					<Text>Sort</Text>
-				</TouchableOpacity>
-				<TouchableOpacity>
-					<Text>Filter</Text>
-				</TouchableOpacity>
+				<AppButton title={"Sort"} onPress={performSorting}/>
+				<AppButton title={"Filter"} onPress={performFiltering}/>
 			</View>
 			<FlatList
 				data={DATA}
@@ -65,16 +79,14 @@ export default function InvoiceList() {
 				keyExtractor={item => item.id}
 			/>
 			<View style={styles.bottomPanel}>
-				<TouchableOpacity>
-					<Text>Search</Text>
-				</TouchableOpacity>
-				<TouchableOpacity>
-					<Text>Create Invoice</Text>
-				</TouchableOpacity>
+				<AppButton title={"Search"} onPress={performSearch}/>
+				<AppButton title={"Create Invoice"} onPress={createInvoice}/>
 			</View>
 		</SafeAreaView>
 	);
 }
+
+export default InvoiceList
 
 const styles = StyleSheet.create({
 	container: {
