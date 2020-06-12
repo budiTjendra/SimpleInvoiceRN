@@ -14,9 +14,11 @@ export default InputField
 
 const styles = StyleSheet.create({
 	displayText:{
+		fontSize:12,
 		color: "gray"
 	},
 	inputText: {
+		fontSize:15,
 		padding: 4,
 		borderBottomColor: "gray",
 		borderBottomWidth: StyleSheet.hairlineWidth
