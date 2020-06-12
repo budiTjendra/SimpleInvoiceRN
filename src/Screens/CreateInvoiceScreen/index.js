@@ -7,7 +7,7 @@ import {
 	TextInput,
 	KeyboardAvoidingView,
 	Platform,
-	TouchableWithoutFeedback, Keyboard
+	TouchableWithoutFeedback, Keyboard, Alert
 } from 'react-native'
 import AppButton from '../../Components/AppButton';
 import InputField from './InputField';
@@ -30,6 +30,22 @@ const CreateInvoiceScreen = ({navigation}) => {
 
 	const createInvoice = () => {
 		console.log('create invoice', {merchantReference}, {merchantContactId} , {merchantEmail})
+		return (
+			Alert.alert(
+				"Confirmation",
+				"Click OK to Proceed",
+				[
+					{
+						text: "Cancel",
+						onPress: () => console.log("Cancel Pressed"),
+						style: "cancel"
+					},
+					{ text: "OK", onPress: () => console.log("OK Pressed") }
+				],
+				{ cancelable: false }
+			)
+		)
+
 	}
 
 	return(
