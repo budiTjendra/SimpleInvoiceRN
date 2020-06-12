@@ -1,7 +1,6 @@
 import React from 'react'
-import {View, Text, SafeAreaView, StyleSheet} from 'react-native'
-
-const CreateInvoice = () => {
+import {View, Text, SafeAreaView, StyleSheet, Button} from 'react-native'
+const CreateInvoiceScreen = ({navigation}) => {
 	return (
 		<SafeAreaView style={styles.container}>
 			<View>
@@ -11,7 +10,7 @@ const CreateInvoice = () => {
 	);
 }
 
-export default CreateInvoice;
+export default CreateInvoiceScreen;
 
 const styles = StyleSheet.create({
 	container: {

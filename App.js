@@ -3,8 +3,8 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import CreateInvoice from './src/Screens/CreateInvoice';
-import InvoiceList from './src/Screens/InvoiceList';
+import CreateInvoiceScreen from './src/Screens/CreateInvoiceScreen';
+import InvoiceListScreen from './src/Screens/InvoiceListScreen';
 
 const Stack = createStackNavigator();
 
@@ -12,8 +12,8 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={"InvoiceList"}>
-        <Stack.Screen name="CreateInvoice" component={CreateInvoice} />
-        <Stack.Screen name="InvoiceList" component={InvoiceList} />
+        <Stack.Screen name="CreateInvoice" component={CreateInvoiceScreen} />
+        <Stack.Screen name="InvoiceList" component={InvoiceListScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
