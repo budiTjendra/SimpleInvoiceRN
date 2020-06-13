@@ -1,9 +1,9 @@
 export const sortType = {
-	invoiceID: "invoice_id",
-	transactionDate: "transaction_date",
-	totalTax: "total_tax",
-	totalAmount: "total_amount",
-	balanceAmount: "balance_amount"
+	invoiceID: "sortBy_invoice_id",
+	transactionDate: "sortBy_transaction_date",
+	totalTax: "sortBy_total_tax",
+	totalAmount: "sortBy_total_amount",
+	balanceAmount: "sortBy_balance_amount"
 }
 
 Object.freeze(sortType)

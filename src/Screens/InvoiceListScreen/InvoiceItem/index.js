@@ -14,8 +14,8 @@ const InvoiceItem = ({ data }) => {
 
 	return (
 		<View style={styles.item}>
-			<Text style={styles.title}>{merchantId}</Text>
-			<Text>InvoiceId:{invoiceId}</Text>
+			<Text style={styles.title}>{invoiceId}</Text>
+			<Text>MerchantId:{merchantId}</Text>
 			<Text>TransactionDate:{transactionDate}</Text>
 			<Text>DueDate:{dueDate}</Text>
 			<Text>TotalTax:{totalTax}</Text>

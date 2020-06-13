@@ -4,34 +4,37 @@ import AppButton from '../../../Components/AppButton';
 import InvoiceListContext from '../InvoiceListContext';
 import {ScreenName} from '../../../Constants';
 import {sortType} from '../Constants/index'
+import {useSelector} from 'react-redux';
 
 const Footer = ({navigation}) =>{
 	const invoiceListContext = React.useContext(InvoiceListContext)
 	const [showSortSelectionUI, onShowSortSelectionUI] = React.useState(false);
 	const [showFilterSelectionUI, onShowFilterSelectionUI] = React.useState(false);
+	const authenticationState = useSelector(state => state.authenticationReducer)
 
 	const {
-		dispatch
+		dispatch,
+		state: { data }
 	} = invoiceListContext
 
 	const sortByInvoiceId = () => {
-		dispatch({ type: sortType.invoiceID})
+		dispatch({ type: sortType.invoiceID , payload: {data}})
 	}
 
 	const sortByTransactionDate = () => {
-		dispatch({ type: sortType.transactionDate})
+		dispatch({ type: sortType.transactionDate, payload: {data}})
 	}
 
 	const sortByTotalTax = () => {
-		dispatch( { type: sortType.totalTax})
+		dispatch( { type: sortType.totalTax, payload: {data}})
 	}
 
 	const sortByTotalAmount = () => {
-		dispatch( { type: sortType.totalAmount})
+		dispatch( { type: sortType.totalAmount, payload: {data}})
 	}
 
 	const sortByBalanceAmount = () => {
-		dispatch( { type: sortType.balanceAmount})
+		dispatch( { type: sortType.balanceAmount, payload: {data}})
 	}
 
 	const onGoToCreateInvoiceScreen = () => {
@@ -42,6 +45,7 @@ const Footer = ({navigation}) =>{
 	}
 
 	const onSortButtonPressed = () => {
+		console.log({authenticationState})
 		onShowSortSelectionUI(!showSortSelectionUI)
 		onShowFilterSelectionUI(false)
 	}

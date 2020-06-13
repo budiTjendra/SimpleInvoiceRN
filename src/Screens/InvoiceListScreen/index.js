@@ -7,6 +7,17 @@ import {sortType, filterType} from './Constants'
 import Footer from './Footer';
 import produce from "immer"
 import _ from "underscore"
+import * as services from '../../Services';
+import { useSelector, useDispatch as useDispatchRedux } from 'react-redux'
+import * as actions from './../../Redux/Actions'
+import * as TimeFrameHelper from './TimeFrameHelper'
+
+
+const actionType = {
+	...sortType,
+	updateData: "update_data"
+}
+
 
 const DATA = [
 	{
@@ -110,26 +121,41 @@ const DATA = [
 	},
 ];
 
-
 const initialState = {data: DATA}
 
 function reducerFunction(draft, action) {
 	// reducer code goes here.
 	switch (action.type) {
-		case sortType.invoiceID:
-			draft.data =  _.sortBy(initialState.data,"invoiceId")
+		case actionType.invoiceID:
+			draft.data =  _.sortBy(action.payload.data,"invoiceId")
 			break;
-		case sortType.transactionDate:
-			draft.data =  _.sortBy(initialState.data,"transactionDate")
+		case actionType.transactionDate:
+			draft.data =  _.sortBy(action.payload.data,"transactionDate")
 			break;
-		case sortType.totalTax:
-			draft.data = _.sortBy(initialState.data,"totalTax").reverse() //desc
+		case actionType.totalTax:
+			draft.data = _.sortBy(action.payload.data,"totalTax").reverse() //desc
 			break;
-		case sortType.totalAmount:
-			draft.data =  _.sortBy(initialState.data,"totalAmount").reverse() //desc
+		case actionType.totalAmount:
+			draft.data =  _.sortBy(action.payload.data,"totalAmount").reverse() //desc
 			break;
-		case sortType.balanceAmount:
-			draft.data =  _.sortBy(initialState.data,"balanceAmount").reverse() //desc
+		case actionType.balanceAmount:
+			draft.data =  _.sortBy(action.payload.data,"balanceAmount").reverse() //desc
+			break;
+		case actionType.updateData:
+			const newData = action.payload.data.map( item => {
+				return {
+					invoiceId: item.invoiceId,
+					merchantId: item.merchantId,
+					transactionDate: item.transactionDate,
+					dueDate: item.dueDate,
+					totalTax: item.totalTax,
+					totalAmount: item.totalAmount,
+					balanceAmount: item.balanceAmount,
+					currency: item.currency
+				}
+			})
+			draft.data = newData
+			break;
 		default:
 			break;
 	}
@@ -139,7 +165,44 @@ const curriedReducerFunction = produce(reducerFunction);
 
 const InvoiceList = ({navigation}) => {
 	const [state, dispatch] = React.useReducer(curriedReducerFunction, initialState);
-	
+	const dispatchRedux = useDispatchRedux();
+
+	React.useEffect(()=>{
+		const fetchInvoices = (token) => {
+			const entireHistory = TimeFrameHelper.EntireHistory();
+			const resp = services.getInvoices({
+				token,
+				fromDate: entireHistory.startDate,
+				toDate: entireHistory.endDate,
+				merchantReference: 7066823
+			});
+			return resp;
+		}
+
+		//get access token, then fetch list
+		new Promise((resolve, reject) =>{
+			const resp = services.getAccessToken()
+			resolve(resp)
+		})
+			.catch(resp => console.error('error in get AccessToken', {resp}))
+			.then(resp => resp.data)
+			.then(data => {
+				dispatchRedux(actions.setToken(data))
+				const resp = fetchInvoices(data.access_token)
+				return resp;
+		})
+			.catch(resp => console.error('error in fetchInvoices', {resp}))
+			.then (resp => resp.data)
+			.then(data => {
+				console.log('update data', data.length)
+				dispatch({
+					type: actionType.updateData,
+					payload: data
+				})
+			})
+
+	},[])
+
 	const {
 		data
 	} = state;
@@ -155,7 +218,7 @@ const InvoiceList = ({navigation}) => {
 					<FlatList
 						data={data}
 						renderItem={({ item }) => <InvoiceItem data={item}/>}
-						keyExtractor={item => item.id}
+						keyExtractor={item => item.invoiceId}
 					/>
 
 					{/* contains buttons */}
