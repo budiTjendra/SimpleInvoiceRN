@@ -154,12 +154,16 @@ const InvoiceList = ({navigation}) => {
 		  	state, dispatch
 			}}>
 				<SafeAreaView style={styles.container}>
+					{/* contains search bar */}
 					<Header/>
+
 					<FlatList
 						data={data}
 						renderItem={({ item }) => <InvoiceItem data={item}/>}
 						keyExtractor={item => item.id}
 					/>
+
+					{/* contains buttons */}
 					<Footer navigation={navigation}/>
 				</SafeAreaView>
 			</InvoiceListContext.Provider>
