@@ -30,6 +30,10 @@ const Footer = ({navigation}) =>{
 		dispatch( { type: sortType.totalAmount})
 	}
 
+	const sortByBalanceAmount = () => {
+		dispatch( { type: sortType.balanceAmount})
+	}
+
 	const onGoToCreateInvoiceScreen = () => {
 		onShowSortSelectionUI(false)
 		onShowFilterSelectionUI(false)
@@ -54,6 +58,7 @@ const Footer = ({navigation}) =>{
 				<Button title={"Transaction Date"} onPress={sortByTransactionDate}/>
 				<Button title={"Total Tax"} onPress={sortByTotalTax}/>
 				<Button title={"Total Amount"} onPress={sortByTotalAmount}/>
+				<Button title={"Balance Amount"} onPress={sortByBalanceAmount}/>
 			</View>
 		)
 	}
