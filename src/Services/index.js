@@ -15,7 +15,6 @@ const url = {
 }
 
 export const getAccessToken = () => {
-	// Set config defaults when creating the instance
 	const result = axios({
 		method: 'post',
 		url: url.token,
@@ -24,6 +23,34 @@ export const getAccessToken = () => {
 			'Content-Type': 'application/x-www-form-urlencoded,application/x-www-form-urlencoded'
 		},
 		data: 'grant_type=client_credentials&scope=PRODUCTION'
+	});
+
+	return result;
+}
+
+export const getInvoices = (params) => {
+	const {
+		token,
+		fromDate,
+		toDate,
+		merchantReference
+	} = params
+
+	const result = axios({
+		method: 'get',
+		url: url.invoice,
+		headers: {
+			'Authorization': `Bearer ${token}`,
+			'Content-Type': 'application/json'
+		},
+		data: {},
+		params: {
+			fromDate,
+			toDate,
+			pageSize: 100,
+			pageNum: 1,
+			merchantReference
+		}
 	});
 
 	return result;
