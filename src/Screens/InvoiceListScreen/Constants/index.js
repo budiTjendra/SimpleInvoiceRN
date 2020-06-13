@@ -9,9 +9,10 @@ export const sortType = {
 Object.freeze(sortType)
 
 export const filterType = {
-	allHistory: "all_history",
+	aWeekAgo: "a_week_ago",
 	aMonthAgo: "a_month_ago",
-	aWeekAgo: "a_week_ago"
+	yearToDate: "year_to_date",
+	allHistory: "all_history",
 }
 
 Object.freeze(filterType)

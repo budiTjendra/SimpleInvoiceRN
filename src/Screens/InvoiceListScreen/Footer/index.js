@@ -75,12 +75,17 @@ const Footer = ({navigation}) =>{
 		console.log('filterByOneWeekAgo')
 	}
 
+	const filterYearToDate = () => {
+		console.log('filterYearToDate')
+	}
+
 	const FilterSelection = () => {
 		return (
 			<View style={styles.selectionPanel}>
-				<Button title={"All History"} onPress={filterByAllHistory}/>
+				<Button title={"A Week Ago"} onPress={filterByOneWeekAgo}/>
 				<Button title={"A Month Ago"} onPress={filterByOneMonthAgo}/>
-				<Button title={"All History"} onPress={filterByOneWeekAgo}/>
+				<Button title={"Year to Date"} onPress={filterYearToDate}/>
+				<Button title={"All History"} onPress={filterByAllHistory}/>
 			</View>
 		)
 	}
