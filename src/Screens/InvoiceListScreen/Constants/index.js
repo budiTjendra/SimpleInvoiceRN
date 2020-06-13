@@ -7,3 +7,11 @@ export const sortType = {
 }
 
 Object.freeze(sortType)
+
+export const filterType = {
+	allHistory: "all_history",
+	aMonthAgo: "a_month_ago",
+	aWeekAgo: "a_week_ago"
+}
+
+Object.freeze(filterType)

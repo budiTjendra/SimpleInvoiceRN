@@ -3,7 +3,7 @@ import { SafeAreaView, View, FlatList, StyleSheet, Text, Button , TouchableWitho
 import InvoiceItem from './InvoiceItem';
 import Header from './Header';
 import InvoiceListContext from './InvoiceListContext';
-import {sortType} from './Constants'
+import {sortType, filterType} from './Constants'
 import Footer from './Footer';
 import produce from "immer"
 import _ from "underscore"
@@ -137,41 +137,9 @@ function reducerFunction(draft, action) {
 
 const curriedReducerFunction = produce(reducerFunction);
 
-function reducer(state, action) {
-	switch (action.type) {
-		case sortType.invoiceID:
-			console.log('sort by invoiceID')
-			return state;
-		case sortType.transactionDate:
-			console.log('sort by transactionDate')
-			return state;
-		case sortType.totalTax:
-			console.log('sort by totalTax')
-			return state;
-		case sortType.totalAmount:
-			console.log('sort by totalAmount')
-			return state;
-
-		default:
-			return state;
-	}
-}
-
-const filterType = {
-	allHistory: "all_history",
-	aMonthAgo: "a_month_ago",
-	aWeekAgo: "a_week_ago"
-}
-
-Object.freeze(filterType)
-
 const InvoiceList = ({navigation}) => {
 	const [state, dispatch] = React.useReducer(curriedReducerFunction, initialState);
-
-	const performSorting = () => {
-		console.log('perform Sorting')
-	}
-
+	
 	const {
 		data
 	} = state;
