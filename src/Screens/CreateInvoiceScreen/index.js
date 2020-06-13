@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import InputField from './InputField';
 
-const CreateInvoiceScreen = ({navigation}) => {
+const CreateInvoiceScreen = () => {
 	const [merchantReference, onChangeMerchantReference] = useState("706683")
 	const [merchantContactId, onChangeMerchantContactId] = useState("569809");
 	const [merchantEmail, onChangeMerchantEmail] = useState("dung@101digital.io");
