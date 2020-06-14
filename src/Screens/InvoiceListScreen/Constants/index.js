@@ -16,3 +16,10 @@ export const filterType = {
 }
 
 Object.freeze(filterType)
+
+export const actionType = {
+	...sortType,
+	updateData: "update_data"
+}
+
+Object.freeze(actionType)

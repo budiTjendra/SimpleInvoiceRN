@@ -3,7 +3,7 @@ import {Button, StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
 import AppButton from '../../../Components/AppButton';
 import InvoiceListContext from '../InvoiceListContext';
 import {ScreenName} from '../../../Constants';
-import {sortType} from '../Constants/index'
+import {sortType,actionType} from '../Constants/index'
 import {useSelector} from 'react-redux';
 
 const Footer = ({navigation}) =>{
@@ -18,23 +18,23 @@ const Footer = ({navigation}) =>{
 	} = invoiceListContext
 
 	const sortByInvoiceId = () => {
-		dispatch({ type: sortType.invoiceID , payload: {data}})
+		dispatch({ type: actionType.invoiceID , payload: {data}})
 	}
 
 	const sortByTransactionDate = () => {
-		dispatch({ type: sortType.transactionDate, payload: {data}})
+		dispatch({ type: actionType.transactionDate, payload: {data}})
 	}
 
 	const sortByTotalTax = () => {
-		dispatch( { type: sortType.totalTax, payload: {data}})
+		dispatch( { type: actionType.totalTax, payload: {data}})
 	}
 
 	const sortByTotalAmount = () => {
-		dispatch( { type: sortType.totalAmount, payload: {data}})
+		dispatch( { type: actionType.totalAmount, payload: {data}})
 	}
 
 	const sortByBalanceAmount = () => {
-		dispatch( { type: sortType.balanceAmount, payload: {data}})
+		dispatch( { type: actionType.balanceAmount, payload: {data}})
 	}
 
 	const onGoToCreateInvoiceScreen = () => {
