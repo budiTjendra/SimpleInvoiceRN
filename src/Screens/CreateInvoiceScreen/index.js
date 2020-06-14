@@ -10,11 +10,12 @@ import {
 	TouchableWithoutFeedback, Keyboard, Alert
 } from 'react-native'
 import InputField from './InputField';
+import * as settings from '../../Settings'
 
 const CreateInvoiceScreen = () => {
-	const [merchantReference, onChangeMerchantReference] = useState("706683")
-	const [merchantContactId, onChangeMerchantContactId] = useState("569809");
-	const [merchantEmail, onChangeMerchantEmail] = useState("dung@101digital.io");
+	const [merchantReference, onChangeMerchantReference] = useState(settings.defaultMerchantReference)
+	const [merchantContactId, onChangeMerchantContactId] = useState(settings.defaultMerchantContactId);
+	const [merchantEmail, onChangeMerchantEmail] = useState(settings.defaultMerchantEmail);
 	const [invoiceReference, onChangeInvoiceReference] = useState("");
 	const [currency, onChangeCurrency] = useState("");
 	const [invoiceDate, onChangeInvoiceDate] = useState("");
