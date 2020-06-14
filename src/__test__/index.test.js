@@ -24,12 +24,12 @@ it("test immer", () => {
 
 it("test descending sort with underscore js", ()=>{
 	const ebikes = [
-		{brand: 'ProdecoTech', country: 'United States'},
-		{brand: 'Bh Easy Motion', country: 'Spain'},
-		{brand: 'Benelli', country: 'Italy'},
-		{brand: 'Haibike', country: 'Germany'},
-		{brand: 'Anferro', country: 'Mexico'},
-		{brand: 'Izip', country: 'United States'}
+		{brand: 'ProdecoTech', country: 'United States', amount: 3},
+		{brand: 'Bh Easy Motion', country: 'Spain', amount: 4},
+		{brand: 'Benelli', country: 'Italy', amount: 1},
+		{brand: 'Haibike', country: 'Germany', amount: 2},
+		{brand: 'Anferro', country: 'Mexico', amount: 6},
+		{brand: 'Izip', country: 'United States', amount: 7}
 	];
 
 	const sortedBikes = _.sortBy(ebikes, "brand").reverse();
@@ -38,5 +38,6 @@ it("test descending sort with underscore js", ()=>{
 		const eBikeItem = ebikes.filter(e=> e.brand === sortedBikes[i]["brand"])[0]
 		expect(eBikeItem["brand"]).toBe(sortedBikes[i]["brand"])
 		expect(eBikeItem["country"]).toBe(sortedBikes[i]["country"])
+		expect(eBikeItem["amount"]).toBe(sortedBikes[i]["amount"])
 	}
 })
