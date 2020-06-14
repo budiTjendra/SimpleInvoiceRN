@@ -4,7 +4,7 @@ import AppButton from '../../../Components/AppButton';
 import InvoiceListContext from '../InvoiceListContext';
 
 const Header = () => {
-	const [searchText, onChangeSearchText] = React.useState('');
+	const [searchText, onChangeSearchText] = React.useState('7066823');
 	const invoiceListContext = React.useContext(InvoiceListContext)
 
 	const {
