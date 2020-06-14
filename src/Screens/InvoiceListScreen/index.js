@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import {
 	SafeAreaView,
@@ -17,6 +18,7 @@ import * as actions from './../../Redux/Actions'
 import * as TimeFrameHelper from './TimeFrameHelper'
 import * as config from './Config'
 import * as helper from './../../Helper';
+import {StackScreenProps}  from '@react-navigation/stack'
 
 const entireHistory = TimeFrameHelper.EntireHistory();
 const initialState = {
@@ -84,7 +86,11 @@ function reducerFunction(draft, action) {
 
 const curriedReducerFunction = produce(reducerFunction);
 
-const InvoiceList = ({navigation}) => {
+type Props = {
+	navigation: Object
+}
+
+const InvoiceList = ({navigation}: Props) => {
 	const [state, dispatch] = React.useReducer(curriedReducerFunction, initialState);
 	const dispatchRedux = useDispatchRedux();
 	const authenticationState = useSelector(state => state.authenticationReducer)
@@ -125,8 +131,13 @@ const InvoiceList = ({navigation}) => {
 
 
 	const performSearch =  () => {
+		const {
+			accessToken: {access_token}
+		} = authenticationState
+
+		
 		services.getInvoices({
-			token: authenticationState.accessToken,
+			token: access_token,
 			fromDate: state.startDate,
 			toDate: state.endDate,
 			merchantReference: searchText,
@@ -154,6 +165,7 @@ const InvoiceList = ({navigation}) => {
 		data
 	} = state;
 
+
 	return (
 		  <InvoiceListContext.Provider value={{
 		  	state,
@@ -165,7 +177,6 @@ const InvoiceList = ({navigation}) => {
 				<SafeAreaView style={styles.container}>
 					{/* contains search bar */}
 					<Header/>
-
 					<FlatList
 						data={data}
 						renderItem={({ item }) => <InvoiceItem data={item}/>}
