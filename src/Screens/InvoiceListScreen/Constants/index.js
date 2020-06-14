@@ -19,6 +19,7 @@ Object.freeze(filterType)
 
 export const actionType = {
 	...sortType,
+	...filterType,
 	updateData: "update_data"
 }
 

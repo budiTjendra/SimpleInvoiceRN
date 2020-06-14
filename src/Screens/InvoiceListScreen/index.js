@@ -7,10 +7,10 @@ import {
 import InvoiceItem from './InvoiceItem';
 import Header from './Header';
 import InvoiceListContext from './InvoiceListContext';
-import {sortType, actionType} from './Constants'
+import {sortType, actionType, filterType} from './Constants'
 import Footer from './Footer';
 import produce from "immer"
-import _ from "underscore"
+import _, {filter} from 'underscore'
 import * as services from '../../Services';
 import { useSelector, useDispatch as useDispatchRedux } from 'react-redux'
 import * as actions from './../../Redux/Actions'
@@ -19,7 +19,6 @@ import * as config from './Config'
 import * as helper from './../../Helper';
 
 const entireHistory = TimeFrameHelper.EntireHistory();
-
 const initialState = {
 	data: [],
 	startDate: entireHistory.startDate,
@@ -59,6 +58,25 @@ function reducerFunction(draft, action) {
 			})
 			draft.data = newData
 			break;
+		case actionType.allHistory:
+			draft.startDate = entireHistory.startDate
+			draft.endDate = entireHistory.endDate
+			break;
+		case actionType.aMonthAgo:
+			const aMonthAgo = TimeFrameHelper.LastMonth();
+			draft.startDate = aMonthAgo.startDate
+			draft.endDate = aMonthAgo.endDate
+			break;
+		case actionType.aWeekAgo:
+			const aWeekAgo = TimeFrameHelper.LastWeek();
+			draft.startDate = aWeekAgo.startDate
+			draft.endDate = aWeekAgo.endDate
+			break;
+		case actionType.yearToDate:
+			const yearToDate = TimeFrameHelper.YearToDate()
+			draft.startDate = yearToDate.startDate
+			draft.endDate = yearToDate.endDate
+			break;
 		default:
 			break;
 	}
@@ -70,6 +88,7 @@ const InvoiceList = ({navigation}) => {
 	const [state, dispatch] = React.useReducer(curriedReducerFunction, initialState);
 	const dispatchRedux = useDispatchRedux();
 	const authenticationState = useSelector(state => state.authenticationReducer)
+	const [searchText, onChangeSearchText] = React.useState(config.defaultSearchText);
 
 	React.useEffect(()=>{
 		//get access token, then fetch list
@@ -98,12 +117,16 @@ const InvoiceList = ({navigation}) => {
 
 	},[])
 
+	React.useEffect(()=>{
+		performSearch()
+	},[state.startDate, state.endDate])
+
 
 	const getAccessToken = () => {
 		return authenticationState.accessToken;
 	}
 
-	const searchByMerchantRef =  (merchantReference) => {
+	const performSearch =  () => {
 		const {
 			access_token
 		} = getAccessToken()
@@ -112,7 +135,7 @@ const InvoiceList = ({navigation}) => {
 			token: access_token,
 			fromDate: state.startDate,
 			toDate: state.endDate,
-			merchantReference,
+			merchantReference: searchText,
 		})
 			.catch(e => {
 				helper.showMessage("record not found");
@@ -129,7 +152,8 @@ const InvoiceList = ({navigation}) => {
 					type: actionType.updateData,
 					payload: resp.data
 				})
-		});
+			});
+
 	}
 
 	const {
@@ -138,7 +162,11 @@ const InvoiceList = ({navigation}) => {
 
 	return (
 		  <InvoiceListContext.Provider value={{
-		  	state, dispatch , searchByMerchantRef
+		  	state,
+				dispatch ,
+				performSearch,
+				searchText,
+				onChangeSearchText
 			}}>
 				<SafeAreaView style={styles.container}>
 					{/* contains search bar */}

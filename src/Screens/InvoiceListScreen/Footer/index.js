@@ -14,7 +14,8 @@ const Footer = ({navigation}) =>{
 
 	const {
 		dispatch,
-		state: { data }
+		performSearch,
+		state: { data, currentFilter }
 	} = invoiceListContext
 
 	const sortByInvoiceId = () => {
@@ -45,7 +46,6 @@ const Footer = ({navigation}) =>{
 	}
 
 	const onSortButtonPressed = () => {
-		console.log({authenticationState})
 		onShowSortSelectionUI(!showSortSelectionUI)
 		onShowFilterSelectionUI(false)
 	}
@@ -68,19 +68,19 @@ const Footer = ({navigation}) =>{
 	}
 
 	const filterByAllHistory = () => {
-		console.log('filterByAllHistory')
+		dispatch({ type: actionType.allHistory} )
 	}
 
 	const filterByOneMonthAgo = () => {
-		console.log('filterByOneMonthAgo')
+		dispatch( { type: actionType.aMonthAgo} )
 	}
 
-	const filterByOneWeekAgo = () => {
-		console.log('filterByOneWeekAgo')
+	const filterByOneWeekAgo =  () => {
+		dispatch( { type: actionType.aWeekAgo} )
 	}
 
-	const filterYearToDate = () => {
-		console.log('filterYearToDate')
+	const filterYearToDate =  () => {
+		dispatch( { type: actionType.yearToDate} )
 	}
 
 	const FilterSelection = () => {
