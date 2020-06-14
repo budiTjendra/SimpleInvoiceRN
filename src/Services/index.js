@@ -33,7 +33,9 @@ export const getInvoices = (params) => {
 		token,
 		fromDate,
 		toDate,
-		merchantReference
+		merchantReference,
+		pageSize = 100,
+		pageNum = 1,
 	} = params
 
 	const result = axios({
@@ -43,12 +45,12 @@ export const getInvoices = (params) => {
 			'Authorization': `Bearer ${token}`,
 			'Content-Type': 'application/json'
 		},
-		data: {},
+		data: null,
 		params: {
 			fromDate,
 			toDate,
-			pageSize: 100,
-			pageNum: 1,
+			pageSize,
+			pageNum,
 			merchantReference
 		}
 	});

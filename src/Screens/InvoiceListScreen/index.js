@@ -12,7 +12,13 @@ import { useSelector, useDispatch as useDispatchRedux } from 'react-redux'
 import * as actions from './../../Redux/Actions'
 import * as TimeFrameHelper from './TimeFrameHelper'
 
-const initialState = {data: []}
+const entireHistory = TimeFrameHelper.EntireHistory();
+
+const initialState = {
+	data: [],
+	startDate: entireHistory.startDate,
+	endDate: entireHistory.endDate
+}
 
 function reducerFunction(draft, action) {
 	// reducer code goes here.
@@ -61,12 +67,11 @@ const InvoiceList = ({navigation}) => {
 	React.useEffect(()=>{
 
 		const fetchInvoices = async (token) => {
-			const entireHistory = TimeFrameHelper.EntireHistory();
 			const resp = await services.getInvoices({
 				token,
-				fromDate: entireHistory.startDate,
-				toDate: entireHistory.endDate,
-				merchantReference: 7066823
+				fromDate: state.startDate,
+				toDate: state.endDate,
+				merchantReference: 7066823,
 			});
 			return resp
 		}
@@ -90,8 +95,12 @@ const InvoiceList = ({navigation}) => {
 					payload: data
 				})
 			})
-		
+
 	},[])
+
+	const searchByMerchantId = (merchantId) => {
+			console.log({merchantId})
+	}
 
 	const {
 		data
@@ -99,7 +108,7 @@ const InvoiceList = ({navigation}) => {
 
 	return (
 		  <InvoiceListContext.Provider value={{
-		  	state, dispatch
+		  	state, dispatch , searchByMerchantId
 			}}>
 				<SafeAreaView style={styles.container}>
 					{/* contains search bar */}

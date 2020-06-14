@@ -8,12 +8,8 @@ const Header = () => {
 	const invoiceListContext = React.useContext(InvoiceListContext)
 
 	const {
-		dispatch
+		searchByMerchantId
 	} = invoiceListContext
-
-	const performSearch = ()=> {
-		console.log('search', {searchText}, {invoiceListContext: JSON.stringify(invoiceListContext)})
-	}
 
 	return (
 		<View style={styles.header}>
@@ -23,7 +19,7 @@ const Header = () => {
 				placeholder={"search by merchant id"}
 				value={searchText}
 			/>
-			<AppButton title={"Search"} onPress={performSearch}/>
+			<AppButton title={"Search"} onPress={ () => searchByMerchantId(searchText)}/>
 		</View>
 	)
 }
