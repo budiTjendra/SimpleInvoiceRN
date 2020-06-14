@@ -5,7 +5,7 @@ import AppButton from '../../../Components/AppButton';
 import InvoiceListContext from '../InvoiceListContext';
 import {ScreenName} from '../../../Constants';
 import {sortType, actionType, filterType} from '../Constants/index'
-import * as config from '../Config'
+import * as settings from '../../../Settings'
 
 type Props = {
 	navigation: Object
@@ -14,7 +14,7 @@ const Footer = ({navigation}:Props) =>{
 	const invoiceListContext = React.useContext(InvoiceListContext)
 	const [showSortSelectionUI, onShowSortSelectionUI] = React.useState(false);
 	const [showFilterSelectionUI, onShowFilterSelectionUI] = React.useState(false);
-	const [currentFilter, setCurrentFilter] = React.useState(config.defaultFilterType)
+	const [currentFilter, setCurrentFilter] = React.useState(settings.defaultFilterType)
 	const [currentSort, setCurrentSort] = React.useState(undefined)
 
 	const {

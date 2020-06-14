@@ -16,7 +16,7 @@ import * as services from '../../Services';
 import { useSelector, useDispatch as useDispatchRedux } from 'react-redux'
 import * as actions from './../../Redux/Actions'
 import * as TimeFrameHelper from './TimeFrameHelper'
-import * as config from './Config'
+import * as settings from '../../Settings'
 import * as helper from './../../Helper';
 
 const entireHistory = TimeFrameHelper.EntireHistory();
@@ -95,7 +95,7 @@ const InvoiceList = ({navigation}: Props) => {
 	const [state, dispatch] = React.useReducer(curriedReducerFunction, initialState);
 	const dispatchRedux = useDispatchRedux();
 	const authenticationState = useSelector(state => state.authenticationReducer)
-	const [searchText, onChangeSearchText] = React.useState(config.defaultSearchText);
+	const [searchText, onChangeSearchText] = React.useState(settings.defaultSearchText);
 
 	React.useEffect(()=>{
 		//get access token, then fetch list
@@ -110,7 +110,7 @@ const InvoiceList = ({navigation}: Props) => {
 					token: data.access_token,
 					fromDate: state.startDate,
 					toDate: state.endDate,
-					merchantReference: config.defaultSearchText,
+					merchantReference: settings.defaultSearchText,
 				});
 		})
 			.catch(resp => console.error('error in fetchInvoices', {resp}))
