@@ -2,7 +2,7 @@ import * as actions from '../../Actions'
 import produce from 'immer';
 
 const initialState = {
-	accessToken: {}
+	accessToken: undefined
 }
 
 const authenticationReducer = produce((draft, { type, payload } = {}) => {

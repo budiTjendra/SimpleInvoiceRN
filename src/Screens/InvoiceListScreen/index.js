@@ -118,21 +118,15 @@ const InvoiceList = ({navigation}) => {
 	},[])
 
 	React.useEffect(()=>{
-		performSearch()
+		if (authenticationState.accessToken !== undefined){
+			performSearch()
+		}
 	},[state.startDate, state.endDate])
 
 
-	const getAccessToken = () => {
-		return authenticationState.accessToken;
-	}
-
 	const performSearch =  () => {
-		const {
-			access_token
-		} = getAccessToken()
-
 		services.getInvoices({
-			token: access_token,
+			token: authenticationState.accessToken,
 			fromDate: state.startDate,
 			toDate: state.endDate,
 			merchantReference: searchText,
