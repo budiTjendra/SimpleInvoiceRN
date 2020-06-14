@@ -1,6 +1,7 @@
+// @flow
 import moment from 'moment';
 
-function formatDate({startDate, endDate}){
+function formatDate({startDate, endDate})  {
 	return {
 		startDate: startDate.format('YYYY-MM-DD'),
 		endDate: endDate.format('YYYY-MM-DD')

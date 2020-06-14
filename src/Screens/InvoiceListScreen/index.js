@@ -8,21 +8,22 @@ import {
 import InvoiceItem from './InvoiceItem';
 import Header from './Header';
 import InvoiceListContext from './InvoiceListContext';
-import {sortType, actionType, filterType} from './Constants'
+import { actionType} from './Constants'
 import Footer from './Footer';
 import produce from "immer"
-import _, {filter} from 'underscore'
+import _ from 'underscore'
 import * as services from '../../Services';
 import { useSelector, useDispatch as useDispatchRedux } from 'react-redux'
 import * as actions from './../../Redux/Actions'
 import * as TimeFrameHelper from './TimeFrameHelper'
 import * as config from './Config'
 import * as helper from './../../Helper';
-import {StackScreenProps}  from '@react-navigation/stack'
 
 const entireHistory = TimeFrameHelper.EntireHistory();
+
 const initialState = {
 	data: [],
+	//$FlowFixMe
 	startDate: entireHistory.startDate,
 	endDate: entireHistory.endDate,
 }
@@ -55,7 +56,7 @@ function reducerFunction(draft, action) {
 					totalTax: item.totalTax,
 					totalAmount: item.totalAmount,
 					balanceAmount: item.balanceAmount,
-					currency: item.currency
+					currency: item.currency,
 				}
 			})
 			draft.data = newData
@@ -135,7 +136,6 @@ const InvoiceList = ({navigation}: Props) => {
 			accessToken: {access_token}
 		} = authenticationState
 
-		
 		services.getInvoices({
 			token: access_token,
 			fromDate: state.startDate,
@@ -179,7 +179,7 @@ const InvoiceList = ({navigation}: Props) => {
 					<Header/>
 					<FlatList
 						data={data}
-						renderItem={({ item }) => <InvoiceItem data={item}/>}
+						renderItem={({ item }) => <InvoiceItem data={item} />}
 						keyExtractor={item => item.invoiceId}
 					/>
 

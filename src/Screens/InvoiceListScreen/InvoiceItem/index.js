@@ -1,7 +1,20 @@
+// @flow
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const InvoiceItem = ({ data }) => {
+type Props = {
+	data: {
+		invoiceId: string,
+		merchantId: string,
+		transactionDate: string,
+		dueDate: string,
+		totalTax: number,
+		totalAmount: number,
+		balanceAmount: number
+	}
+}
+
+const InvoiceItem = ({ data }: Props) => {
 	const {
 		invoiceId,
 		merchantId,

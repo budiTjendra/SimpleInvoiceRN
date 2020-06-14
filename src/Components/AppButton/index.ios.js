@@ -1,7 +1,8 @@
+// @flow
 import React from 'react';
-import { Button} from 'react-native';
+import { Button } from 'react-native';
 
-const AppButton = (props) => {
+const AppButton = (props: any) => {
 	return (
 		<Button {...props} />
 	);

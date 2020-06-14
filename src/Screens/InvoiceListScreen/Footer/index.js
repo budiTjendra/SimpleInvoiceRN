@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import {Button, StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
 import AppButton from '../../../Components/AppButton';
@@ -6,7 +7,10 @@ import {ScreenName} from '../../../Constants';
 import {sortType, actionType, filterType} from '../Constants/index'
 import * as config from '../Config'
 
-const Footer = ({navigation}) =>{
+type Props = {
+	navigation: Object
+}
+const Footer = ({navigation}:Props) =>{
 	const invoiceListContext = React.useContext(InvoiceListContext)
 	const [showSortSelectionUI, onShowSortSelectionUI] = React.useState(false);
 	const [showFilterSelectionUI, onShowFilterSelectionUI] = React.useState(false);

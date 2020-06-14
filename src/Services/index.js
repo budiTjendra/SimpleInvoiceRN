@@ -1,3 +1,4 @@
+// @flow
 import axios from 'axios'
 
 axios.defaults.baseURL = "https://api.101digital.io"
@@ -28,7 +29,16 @@ export const getAccessToken = () => {
 	return result;
 }
 
-export const getInvoices = (params) => {
+type getInvoicesParams = {
+	token: string,
+	fromDate: string,
+	toDate: string,
+	merchantReference: string,
+	pageSize?: number,
+	pageNum?: number,
+}
+
+export const getInvoices = (params : getInvoicesParams) => {
 	const {
 		token,
 		fromDate,
