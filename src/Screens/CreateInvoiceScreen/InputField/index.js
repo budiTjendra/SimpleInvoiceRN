@@ -1,12 +1,23 @@
-//@ flow
+// @flow
 import React from 'react'
 import {StyleSheet, Text, TextInput} from 'react-native';
 
-const InputField = ({label, ...rest}) => {
+
+type Props = {|
+	label: string,
+	showRequired: boolean,
+	onChangeText: Function,
+	placeholder: string,
+	value: string
+|}
+
+const InputField = ({label, showRequired, ...rest}:Props) => {
 	return (
 		<React.Fragment>
 			<Text style={styles.displayText}>{label}</Text>
-			<TextInput style={styles.inputText} {...rest}/>
+			{ showRequired && <Text style={styles.requiredText}>* required fields</Text>}
+
+			<TextInput  style={styles.inputText} {...rest}/>
 		</React.Fragment>
 	)
 }
@@ -24,5 +35,7 @@ const styles = StyleSheet.create({
 		borderBottomColor: "gray",
 		borderBottomWidth: StyleSheet.hairlineWidth
 	},
-
+	requiredText:{
+		color:'red'
+	},
 });
