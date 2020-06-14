@@ -1,5 +1,9 @@
 import React from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, Button , TouchableWithoutFeedback, TextInput, ScrollView, VirtualizedList} from 'react-native';
+import {
+	SafeAreaView,
+	FlatList,
+	StyleSheet,
+} from 'react-native';
 import InvoiceItem from './InvoiceItem';
 import Header from './Header';
 import InvoiceListContext from './InvoiceListContext';
@@ -11,13 +15,15 @@ import * as services from '../../Services';
 import { useSelector, useDispatch as useDispatchRedux } from 'react-redux'
 import * as actions from './../../Redux/Actions'
 import * as TimeFrameHelper from './TimeFrameHelper'
+import * as config from './Config'
+import * as helper from './../../Helper';
 
 const entireHistory = TimeFrameHelper.EntireHistory();
 
 const initialState = {
 	data: [],
 	startDate: entireHistory.startDate,
-	endDate: entireHistory.endDate
+	endDate: entireHistory.endDate,
 }
 
 function reducerFunction(draft, action) {
@@ -63,19 +69,9 @@ const curriedReducerFunction = produce(reducerFunction);
 const InvoiceList = ({navigation}) => {
 	const [state, dispatch] = React.useReducer(curriedReducerFunction, initialState);
 	const dispatchRedux = useDispatchRedux();
+	const authenticationState = useSelector(state => state.authenticationReducer)
 
 	React.useEffect(()=>{
-
-		const fetchInvoices = async (token) => {
-			const resp = await services.getInvoices({
-				token,
-				fromDate: state.startDate,
-				toDate: state.endDate,
-				merchantReference: 7066823,
-			});
-			return resp
-		}
-
 		//get access token, then fetch list
 		services.getAccessToken()
 			.catch(resp => console.error('error in get AccessToken', {resp}))
@@ -84,12 +80,16 @@ const InvoiceList = ({navigation}) => {
 			})
 			.then(data => {
 				dispatchRedux(actions.setToken(data))
-				return fetchInvoices(data.access_token);
+				return services.getInvoices({
+					token: data.access_token,
+					fromDate: state.startDate,
+					toDate: state.endDate,
+					merchantReference: config.defaultSearchText,
+				});
 		})
 			.catch(resp => console.error('error in fetchInvoices', {resp}))
 			.then (resp => resp.data)
 			.then(data => {
-				console.log('update data', data.length)
 				dispatch({
 					type: actionType.updateData,
 					payload: data
@@ -98,8 +98,38 @@ const InvoiceList = ({navigation}) => {
 
 	},[])
 
-	const searchByMerchantId = (merchantId) => {
-			console.log({merchantId})
+
+	const getAccessToken = () => {
+		return authenticationState.accessToken;
+	}
+
+	const searchByMerchantRef =  (merchantReference) => {
+		const {
+			access_token
+		} = getAccessToken()
+
+		services.getInvoices({
+			token: access_token,
+			fromDate: state.startDate,
+			toDate: state.endDate,
+			merchantReference,
+		})
+			.catch(e => {
+				helper.showMessage("record not found");
+				console.log('error in getInvoices()', e)
+			})
+			.then(resp => {
+				const {
+					data
+				} = resp.data
+
+				helper.showMessage(`${data.length} records found`);
+
+				dispatch({
+					type: actionType.updateData,
+					payload: resp.data
+				})
+		});
 	}
 
 	const {
@@ -108,7 +138,7 @@ const InvoiceList = ({navigation}) => {
 
 	return (
 		  <InvoiceListContext.Provider value={{
-		  	state, dispatch , searchByMerchantId
+		  	state, dispatch , searchByMerchantRef
 			}}>
 				<SafeAreaView style={styles.container}>
 					{/* contains search bar */}
