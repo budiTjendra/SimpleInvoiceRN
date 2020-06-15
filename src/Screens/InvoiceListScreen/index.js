@@ -158,7 +158,6 @@ const InvoiceList = ({navigation}: Props) => {
 					payload: resp.data
 				})
 			});
-
 	}
 
 	const {

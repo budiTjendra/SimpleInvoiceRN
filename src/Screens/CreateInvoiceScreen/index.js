@@ -1,5 +1,5 @@
 // @flow
-import React, {useLayoutEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {
 	View,
 	Button,
@@ -11,6 +11,9 @@ import {
 } from 'react-native'
 import InputField from './InputField';
 import * as settings from '../../Settings'
+import * as services from '../../Services'
+import {useSelector} from 'react-redux';
+import * as helper from '../../Helper';
 
 const CreateInvoiceScreen = () => {
 	const [merchantReference, onChangeMerchantReference] = useState(settings.defaultMerchantReference)
@@ -28,26 +31,79 @@ const CreateInvoiceScreen = () => {
 	const [taxId, onChangeTaxId] = useState("")
 	const [amount, onChangeAmount] = useState("")
 	const [checkRequired, setCheckRequired]= useState(false)
+	const authenticationState = useSelector(state => state.authenticationReducer)
+
+	const isValid = () =>{
+		if(merchantReference.trim() === '' ||
+			merchantContactId.trim() === '' ||
+			merchantEmail.trim() === '' ||
+			invoiceReference.trim() === '' ||
+			currency.trim() === '' ||
+			invoiceDate.trim() === '' ||
+			transactionDate.trim() === '' ||
+			dueDate.trim() === '' ||
+			settlementDate.trim() === '' ||
+			itemReference === '' ||
+			itemDescription === '' ||
+			quantity === '' ||
+			taxId.trim() === '' ||
+			amount === ''
+		){
+			return false;
+		}
+
+		return true;
+	}
+
+	const showConfirmation = (fn) =>{
+		Alert.alert(
+			"Confirmation",
+			"Click OK to Proceed",
+			[
+				{
+					text: "Cancel",
+					onPress: () => console.log("Cancel Pressed"),
+					style: "cancel"
+				},
+				{ text: "OK", onPress: fn }
+			],
+			{ cancelable: false }
+		)
+	}
 
 	const createInvoice = () => {
 		setCheckRequired(true)
 
-		console.log('create invoice', {merchantReference}, {merchantContactId} , {merchantEmail})
-		return (
-			Alert.alert(
-				"Confirmation",
-				"Click OK to Proceed",
-				[
-					{
-						text: "Cancel",
-						onPress: () => console.log("Cancel Pressed"),
-						style: "cancel"
-					},
-					{ text: "OK", onPress: () => console.log("OK Pressed") }
-				],
-				{ cancelable: false }
-			)
-		)
+		const {
+			accessToken: { access_token }
+		} = authenticationState
+
+		const fn = () => {
+			services.createInvoice({
+				token: access_token,
+				merchantReference,
+				merchantContactId,
+				merchantEmail,
+				invoiceReference,
+				currency,
+				invoiceDate,
+				transactionDate,
+				dueDate,
+				settlementDate,
+				itemReference,
+				itemDescription,
+				quantity: parseInt(quantity),
+				taxId,
+				amount: parseFloat(amount)
+			}).then(resp => {
+				helper.showMessage(`invoice "${invoiceReference}" is successfully created`)
+				console.log('create invoice successful', resp)
+			})
+
+			helper.showMessage("request submitted")
+		}
+
+		showConfirmation(fn);
 
 	}
 
@@ -97,28 +153,28 @@ const CreateInvoiceScreen = () => {
 						<InputField
 							showRequired={checkRequired && invoiceDate === ""}
 							label={"Invoice Date"}
-							placeholder={"format: yyy-mm-dd"}
+							placeholder={"format: yyyy-mm-dd"}
 							value={invoiceDate}
 							onChangeText={text => onChangeInvoiceDate(text)}/>
 
 						<InputField
 							showRequired={checkRequired && transactionDate === ""}
 							label={"Transaction Date"}
-							placeholder={"format: yyy-mm-dd"}
+							placeholder={"format: yyyy-mm-dd"}
 							value={transactionDate}
 							onChangeText={text => onChangeTransactionDate(text)}/>
 
 						<InputField
 							showRequired={checkRequired && dueDate === ""}
 							label={"Due Date"}
-							placeholder={"format: yyy-mm-dd"}
+							placeholder={"format: yyyy-mm-dd"}
 							value={dueDate}
 							onChangeText={text => onChangeDueDate(text)}/>
 
 						<InputField
 							showRequired={checkRequired && settlementDate === ""}
 							label={"Settlement Date"}
-							placeholder={"format: yyy-mm-dd"}
+							placeholder={"format: yyyy-mm-dd"}
 							value={settlementDate}
 							onChangeText={text => onChangeSettlementDate(text)}/>
 
@@ -146,7 +202,7 @@ const CreateInvoiceScreen = () => {
 						<InputField
 							showRequired={checkRequired && taxId === ""}
 							label={"Tax id"}
-							placeholder={"format: number"}
+							placeholder={"eg: 2"}
 							value={taxId}
 							onChangeText={text => onChangeTaxId(text)}/>
 
@@ -160,7 +216,7 @@ const CreateInvoiceScreen = () => {
 					</ScrollView>
 
 					<View style={styles.btnContainer}>
-						<Button title="Submit" onPress={createInvoice} />
+						<Button title="Submit" onPress={createInvoice} disabled={!isValid()} />
 					</View>
 				</View>
 			</TouchableWithoutFeedback>

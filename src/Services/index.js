@@ -67,3 +67,79 @@ export const getInvoices = (params : getInvoicesParams) => {
 
 	return result;
 }
+
+type createInvoiceParams = {
+	token: string,
+	merchantReference: string,
+	merchantContactId: string,
+	merchantEmail: string,
+	invoiceReference: string,
+	currency: string,
+	invoiceDate: string,
+	transactionDate: string,
+	dueDate: string,
+	settlementDate: string,
+	itemReference: string,
+	itemDescription: string,
+	quantity: number,
+	taxId: string,
+	amount: number
+}
+
+export const createInvoice = (params: createInvoiceParams) =>{
+	const {
+		token,
+		merchantReference,
+		merchantContactId,
+		merchantEmail,
+		invoiceReference,
+		currency,
+		invoiceDate,
+		transactionDate,
+		dueDate,
+		settlementDate,
+		itemReference,
+		itemDescription,
+		quantity,
+		taxId,
+		amount
+	} = params
+
+	const result = axios({
+		method: 'post',
+		url: url.invoice,
+		headers: {
+			'Authorization': `Bearer ${token}`,
+			'Content-Type': 'application/json'
+		},
+		data: {
+			"listOfInvoices": [
+				{
+					"merchant": {
+						"merchantReference": merchantReference,
+						"contact": {
+							"id": merchantContactId,
+							"email": merchantEmail
+						}
+					},
+					"invoiceReference": invoiceReference,
+					"currency": currency,
+					"invoiceDate": invoiceDate,
+					"transactionDate": transactionDate,
+					"dueDate": dueDate,
+					"settlementDate": settlementDate,
+					"items": [
+						{
+							"itemReference": itemReference,
+							"description": itemDescription,
+							"quantity": quantity,
+							"taxId": taxId,
+							"amount": amount
+						}
+					]
+				}]
+		},
+	});
+
+	return result;
+}
