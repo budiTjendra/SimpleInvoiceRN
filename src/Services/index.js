@@ -1,7 +1,10 @@
 // @flow
 import axios from 'axios'
+import store from '../Redux/Store';
+import * as actions from '../Redux/Actions'
+import * as settings from '../Settings'
 
-axios.defaults.baseURL = "https://api.101digital.io"
+axios.defaults.baseURL = settings.endPoint
 
 const api_path = {
 	token: "/token",
@@ -143,3 +146,41 @@ export const createInvoice = (params: createInvoiceParams) =>{
 
 	return result;
 }
+
+//handler for token expiry
+axios.interceptors.response.use((response) => {
+	return response;
+}, (error) => {
+	// Return any error which is not due to authentication back to the calling service
+	if (error.response.status !== 401) {
+		return new Promise((resolve, reject) => {
+			reject(error);
+		});
+	}
+
+	// Return error, token refresh  didnot work
+	if (error.config.url === api_path.token){
+		return new Promise((resolve, reject) => {
+			reject(error);
+		});
+	}
+	
+	//Try request again with new Token
+	return getAccessToken().then(
+		resp => {
+			store.dispatch(actions.setToken(resp.data))
+
+			// New request with new token
+			const config = error.config;
+			config.headers['Authorization'] = `Bearer ${resp.data.access_token}`;
+
+			return new Promise((resolve, reject) => {
+				axios.request(config).then(response => {
+					resolve(response);
+				}).catch((error) => {
+					reject(error);
+				})
+			});
+		}
+	)
+})
