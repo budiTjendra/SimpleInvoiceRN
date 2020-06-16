@@ -42,6 +42,7 @@
     "eslint": "^7.2.0",
     "flow-bin": "^0.113.0",
     "jest": "^26.0.1",
+    "jest-circus": "^26.0.1",
     "metro-react-native-babel-preset": "^0.59.0",
     "react-native-testing-library": "^2.1.0",
     "react-test-renderer": "16.11.0"

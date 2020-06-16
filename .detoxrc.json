@@ -5,6 +5,7 @@
     "ios": {
       "type": "ios.simulator",
       "binaryPath": "/Users/budi.injo/Library/Developer/Xcode/DerivedData/SimpleInvoiceRN-fmpzugfngnzjwlcayefmqjlsymda/Build/Products/Debug-iphonesimulator/SimpleInvoiceRN.app",
+      "build": "xcodebuild -workspace ios/SimpleInvoiceRN.xcworkspace -scheme SimpleInvoiceRN -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
       "device": {
         "type": "iPhone 11"
       }
