@@ -9,7 +9,9 @@
     "test": "jest",
     "lint": "eslint .",
     "flow": "flow",
-    "flow-stop": "flow stop"
+    "flow-stop": "flow stop",
+    "detox:android": "detox build -c android",
+    "detox:ios": "detox build -c ios"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
@@ -36,6 +38,7 @@
     "@react-native-community/eslint-config": "^2.0.0",
     "@testing-library/jest-native": "^3.1.0",
     "babel-jest": "^26.0.1",
+    "detox": "^16.8.1",
     "eslint": "^7.2.0",
     "flow-bin": "^0.113.0",
     "jest": "^26.0.1",
