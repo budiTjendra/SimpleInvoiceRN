@@ -4,7 +4,7 @@ import { Button } from 'react-native';
 
 const AppButton = (props: any) => {
 	return (
-		<Button {...props} />
+		<Button {...props} testID={'appButton'}/>
 	);
 }
 
