@@ -14,10 +14,10 @@ type Props = {|
 const InputField = ({label, showRequired, ...rest}:Props) => {
 	return (
 		<React.Fragment>
-			<Text style={styles.displayText}>{label}</Text>
-			{ showRequired && <Text style={styles.requiredText}>* required fields</Text>}
+			<Text testID={"inputField_displayText"} style={styles.displayText}>{label}</Text>
+			{ showRequired && <Text testID={"inputField_requiredText"} style={styles.requiredText}>* required fields</Text>}
 
-			<TextInput  style={styles.inputText} {...rest}/>
+			<TextInput style={styles.inputText} {...rest}/>
 		</React.Fragment>
 	)
 }
