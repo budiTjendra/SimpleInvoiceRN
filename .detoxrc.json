@@ -1,6 +1,21 @@
 {
   "testRunner": "jest",
   "runnerConfig": "e2e/config.json",
+  "artifacts": {
+    "rootDir": ".artifacts",
+    "plugins": {
+      "instruments": { "enabled": false },
+      "log": { "enabled": true },
+      "screenshot": {
+        "shouldTakeAutomaticSnapshots": true,
+        "keepOnlyFailedTestsArtifacts": true,
+        "takeWhen": {
+          "testStart": false,
+          "testDone": true
+        }
+      }
+    }
+  },
   "configurations": {
     "ios": {
       "type": "ios.simulator",
@@ -15,7 +30,7 @@
       "binaryPath": "/Users/budi.injo/Documents/work/TL/github/SimpleInvoiceRN/android/app/build/outputs/apk/debug/app-debug.apk",
       "build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
       "device": {
-        "avdName": "Pixel_2_API_R"
+        "avdName": "Pixel_3a_API_30"
       }
     }
   }

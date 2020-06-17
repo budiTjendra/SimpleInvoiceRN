@@ -10,8 +10,12 @@
     "lint": "eslint .",
     "flow": "flow",
     "flow-stop": "flow stop",
-    "detox:android": "detox build -c android",
-    "detox:ios": "detox build -c ios"
+    "build:android": "detox build -c android",
+    "build:ios": "detox build -c ios",
+    "test:android": "detox test --configuration android",
+    "test:ios": "detox test --configuration ios",
+    "e2e:android": "npm run build:android && npm run test:android",
+    "e2e:ios": "npm run build:ios && npm run test:ios"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
