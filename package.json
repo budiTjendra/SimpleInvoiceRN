@@ -7,6 +7,7 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "lint": "eslint .",
     "flow": "flow",
     "flow-stop": "flow stop",
@@ -42,6 +43,7 @@
     "@react-native-community/eslint-config": "^2.0.0",
     "@testing-library/jest-native": "^3.1.0",
     "babel-jest": "^26.0.1",
+    "babel-jest": "^26.0.1",
     "detox": "^16.8.1",
     "eslint": "^7.2.0",
     "flow-bin": "^0.113.0",
@@ -53,7 +55,12 @@
   },
   "jest": {
     "preset": "react-native",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__tests__/App-test.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
     "setupFilesAfterEnv": [
+      "./node_modules/react-native-gesture-handler/jestSetup.js",
       "@testing-library/jest-native/extend-expect"
     ]
   }
