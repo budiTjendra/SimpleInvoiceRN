@@ -2,10 +2,11 @@
 import React from 'react';
 import {Text, TouchableNativeFeedback, View,StyleSheet} from 'react-native';
 
-const AppButton = ({onPress, title,  ...rest}) => {
+const AppButton = ({testID = "appButton", onPress, title,  ...rest}) => {
 	return (
 		<TouchableNativeFeedback
 			onPress={onPress}
+			testID={testID}
 		>
 			<View style={styles.touchable} {...rest}>
 				<Text style={styles.text}>{title}</Text>

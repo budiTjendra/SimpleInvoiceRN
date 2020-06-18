@@ -20,8 +20,9 @@ const Header = () => {
 				onChangeText={text => onChangeSearchText(text)}
 				placeholder={"search by merchant reference"}
 				value={searchText}
+				testID={"header_textInput"}
 			/>
-			<AppButton title={"Search"} onPress={performSearch}/>
+			<AppButton testID={"appButton_search"} title={"Search"} onPress={performSearch}/>
 		</View>
 	)
 }

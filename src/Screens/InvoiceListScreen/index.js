@@ -177,6 +177,7 @@ const InvoiceList = ({navigation}: Props) => {
 					{/* contains search bar */}
 					<Header/>
 					<FlatList
+						testID={"invoiceListScreen_list"}
 						data={data}
 						renderItem={({ item }) => <InvoiceItem data={item} />}
 						keyExtractor={item => item.invoiceId}

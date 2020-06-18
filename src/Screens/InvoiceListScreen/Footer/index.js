@@ -73,11 +73,11 @@ const Footer = ({navigation}:Props) =>{
 		}
 		return (
 			<View style={styles.selectionPanel}>
-				<Button title={generateTitle("Invoice ID", sortType.invoiceID)} onPress={sortByInvoiceId}/>
-				<Button title={generateTitle("Transaction Date", sortType.transactionDate)} onPress={sortByTransactionDate}/>
-				<Button title={generateTitle("Total Tax", sortType.totalTax)} onPress={sortByTotalTax}/>
-				<Button title={generateTitle("Total Amount", sortType.totalAmount)} onPress={sortByTotalAmount}/>
-				<Button title={generateTitle("Balance Amount", sortType.balanceAmount)} onPress={sortByBalanceAmount}/>
+				<Button testID='footer_btnInvoiceID' title={generateTitle("Invoice ID", sortType.invoiceID)} onPress={sortByInvoiceId}/>
+				<Button testID='footer_btnTransactionDate' title={generateTitle("Transaction Date", sortType.transactionDate)} onPress={sortByTransactionDate}/>
+				<Button testID='footer_btnTotalTax' title={generateTitle("Total Tax", sortType.totalTax)} onPress={sortByTotalTax}/>
+				<Button testID='footer_btnTotalAmount' title={generateTitle("Total Amount", sortType.totalAmount)} onPress={sortByTotalAmount}/>
+				<Button testID='footer_btnBalanceAmount' title={generateTitle("Balance Amount", sortType.balanceAmount)} onPress={sortByBalanceAmount}/>
 			</View>
 		)
 	}
@@ -112,10 +112,10 @@ const Footer = ({navigation}:Props) =>{
 
 		return (
 			<View style={styles.selectionPanel}>
-				<Button title={generateTitle('A Week Ago', filterType.aWeekAgo)} onPress={filterByOneWeekAgo}/>
-				<Button title={generateTitle('A Month Ago', filterType.aMonthAgo)} onPress={filterByOneMonthAgo}/>
-				<Button title={generateTitle('Year to Date', filterType.yearToDate)} onPress={filterYearToDate}/>
-				<Button title={generateTitle('All History', filterType.allHistory)} onPress={filterByAllHistory}/>
+				<Button testID='footer_btnAWeekAgo' title={generateTitle('A Week Ago', filterType.aWeekAgo)} onPress={filterByOneWeekAgo}/>
+				<Button testID='footer_btnAMonthAgo' title={generateTitle('A Month Ago', filterType.aMonthAgo)} onPress={filterByOneMonthAgo}/>
+				<Button testID='footer_btnYearToDate' title={generateTitle('Year to Date', filterType.yearToDate)} onPress={filterYearToDate}/>
+				<Button testID='footer_btnAllHistory' title={generateTitle('All History', filterType.allHistory)} onPress={filterByAllHistory}/>
 			</View>
 		)
 	}
@@ -153,7 +153,6 @@ const styles = StyleSheet.create({
 	},
 	footer:{
 		borderBottomColor: "gray",
-		borderBottomWidth: StyleSheet.hairlineWidth,
 		justifyContent: 'space-around',
 		marginVertical: 10,
 		flexDirection:'row'
