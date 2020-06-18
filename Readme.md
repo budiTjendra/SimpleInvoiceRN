@@ -23,7 +23,7 @@ Not. Initially using detox is not part of my estimation. But i have made some ef
 1. I have implement handler for token expiry check, that will automatically fetch for new token if any request sending is failed due to token expired
 2. I have configure detox to produce artifacts of the testing result which is location at .artifacts root folder
 
-####Installation and Setup:
+#### Installation and Setup:
 1. Open terminal
 2. Go to root folder location 
 3. Run following step:     
